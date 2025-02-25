@@ -22,8 +22,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 trigger: '.kxs-banner_list',
                 start: 'top bottom',
                 end: 'bottom top',
-                scrub: .25,
-                markers: true,
+                scrub: .25
             },
             xPercent: -35,
             ease: 'none'
@@ -58,11 +57,11 @@ document.addEventListener("DOMContentLoaded", (event) => {
         }); 
 
         tl.from(image, {
-            yPercent: -25,
-            ease: "none",
+            yPercent: -12.5,
+            ease: 'none',
         }).to(image, {
-            yPercent: 25,
-            ease: "none",
+            yPercent: 12.5,
+            ease: 'none',
         }); 
         });
     }
