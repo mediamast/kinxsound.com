@@ -17,7 +17,9 @@ document.addEventListener("DOMContentLoaded", (event) => {
     // Horizontal scroll effect on the Kinxsound logos banner
     gsap.to('.kxs-banner_list', {
         scrollTrigger: {
-            trigger: '.kxs-banner_wrapper',
+            trigger: '.kxs-banner_list',
+            start: 'top bottom',
+            end: 'bottom top',
             scrub: .25,
         },
         xPercent: -33
@@ -27,6 +29,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
     gsap.to('.stripes-banner_list', {
         scrollTrigger: {
             trigger: '.stripes-banner_wrapper',
+            start: 'top bottom',
+            end: 'bottom top',
             scrub: .25,
         },
         xPercent: -33
