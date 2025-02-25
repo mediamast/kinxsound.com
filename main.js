@@ -12,79 +12,92 @@ document.addEventListener("DOMContentLoaded", (event) => {
       
     //   requestAnimationFrame(raf)
     
+    // Register the GSAP ScrollTrigger plugin
     gsap.registerPlugin(ScrollTrigger)
     
     // Horizontal scroll effect on the Kinxsound logos banner
-    gsap.to('.kxs-banner_list', {
-        scrollTrigger: {
-            trigger: '.kxs-banner_list',
-            start: 'top bottom',
-            end: 'bottom top',
-            scrub: .25,
-            ease: 'none',
-        },
-        xPercent: -33
-    });
+    if (document.querySelector('.kxs-banner_list')) {
+        gsap.to('.kxs-banner_list', {
+            scrollTrigger: {
+                trigger: '.kxs-banner_list',
+                start: 'top bottom',
+                end: 'bottom top',
+                scrub: .25,
+                markers: true,
+            },
+            xPercent: -35,
+            ease: 'none'
+        });
+    }
 
     // Horizontal scroll effect on the stripes banner
-    gsap.to('.stripes-banner_list', {
-        scrollTrigger: {
-            trigger: '.stripes-banner_wrapper',
-            start: 'top bottom',
-            end: 'bottom top',
-            scrub: .25,
-            ease: 'none',
-        },
-        xPercent: -33
-    });
+    if (document.querySelector('.stripes-banner_list')) {
+        gsap.to('.stripes-banner_list', {
+            scrollTrigger: {
+                trigger: '.stripes-banner_list',
+                start: 'top bottom',
+                end: 'bottom top',
+                scrub: .25,
+               
+            },
+            xPercent: -35,
+            ease: 'none'
+        });
+    }
 
     // Parallex effect on full-width images
-    gsap.utils.toArray(".full-image_wrapper").forEach(function(wrapper) {
-    let image = wrapper.querySelector("img");
-    
-    let tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: wrapper,
-          scrub: 0.25,
-        },
-    }); 
+    if (document.querySelector('.full-image_wrapper')) {
+        gsap.utils.toArray(".full-image_wrapper").forEach(function(wrapper) {
+        let image = wrapper.querySelector("img");
+        
+        let tl = gsap.timeline({
+            scrollTrigger: {
+            trigger: wrapper,
+            scrub: 0.25,
+            },
+        }); 
 
-    tl.from(image, {
-        yPercent: -25,
-        ease: "none",
-      }).to(image, {
-        yPercent: 25,
-        ease: "none",
-      }); 
-    });
+        tl.from(image, {
+            yPercent: -25,
+            ease: "none",
+        }).to(image, {
+            yPercent: 25,
+            ease: "none",
+        }); 
+        });
+    }
 
     // Target items with data-animate attribute of "appear" to animate
-    gsap.fromTo("[data-animate=appear]", 
-        { y: 56, opacity: 0 }, // From state
-        { 
-            y: 0, opacity: 1, // To state
-            duration: 1,
-            scrollTrigger: {
-                trigger: "[data-animate=appear]",
-                start: "top 80%",
-            }
-        }
-    );
-
-    document.querySelectorAll("[data-animate='appear-children']").forEach(parent => {
-        gsap.fromTo(
-            parent.children, // Target direct children
+    if (document.querySelector('[data-animate=appear]')) {
+        gsap.fromTo("[data-animate=appear]", 
             { y: 56, opacity: 0 }, // From state
             { 
                 y: 0, opacity: 1, // To state
-                duration: .64,
-                stagger: 0.16, // Stagger delay for each child
+                duration: 1,
                 scrollTrigger: {
-                    trigger: parent,
+                    trigger: "[data-animate=appear]",
                     start: "top 80%",
                 }
             }
         );
-    });
+    }
+
+    if (document.querySelector('[data-animate=appear-children]')) {
+        document.querySelectorAll('[data-animate=appear-children]').forEach(parent => {
+            gsap.fromTo(
+                parent.children, // Target direct children
+                { y: 56, opacity: 0 }, // From state
+                { 
+                    y: 0, opacity: 1, // To state
+                    duration: .64,
+                    stagger: 0.16, // Stagger delay for each child
+                    scrollTrigger: {
+                        trigger: parent,
+                        start: "top 80%",
+                    }
+                }
+            );
+        });
+    }
 
 });
