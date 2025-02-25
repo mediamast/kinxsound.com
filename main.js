@@ -21,6 +21,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
             start: 'top bottom',
             end: 'bottom top',
             scrub: .25,
+            ease: 'none',
         },
         xPercent: -33
     });
@@ -32,6 +33,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
             start: 'top bottom',
             end: 'bottom top',
             scrub: .25,
+            ease: 'none',
         },
         xPercent: -33
     });
