@@ -1,102 +1,104 @@
-document.addEventListener("DOMContentLoaded", (event) => {
+document.addEventListener("DOMContentLoaded", () => {
     
-    // const lenis = new Lenis({
-    //     duration: 1.2,
-    //     easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-    //   })
-      
-    //   function raf(time) {
-    //     lenis.raf(time)
-    //     requestAnimationFrame(raf)
-    //   }
-      
-    //   requestAnimationFrame(raf)
-    
-    // Register the GSAP ScrollTrigger plugin
-    gsap.registerPlugin(ScrollTrigger)
-    
-    // Horizontal scroll effect on the Kinxsound logos banner
-    if (document.querySelector('.kxs-banner_list')) {
-        gsap.to('.kxs-banner_list', {
-            scrollTrigger: {
-                trigger: '.kxs-banner_list',
-                start: 'top bottom',
-                end: 'bottom top',
-                scrub: .25
-            },
-            xPercent: -35,
-            ease: 'none'
-        });
-    }
+    // 🚀 Initialize Lenis Smooth Scrolling
+    // if (typeof Lenis !== 'undefined') {
+    //     const lenis = new Lenis({
+    //         duration: 1.2,
+    //         easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    //     });
 
-    // Horizontal scroll effect on the stripes banner
-    if (document.querySelector('.stripes-banner_list')) {
-        gsap.to('.stripes-banner_list', {
-            scrollTrigger: {
-                trigger: '.stripes-banner_list',
-                start: 'top bottom',
-                end: 'bottom top',
-                scrub: .25,
-               
-            },
-            xPercent: -35,
-            ease: 'none'
-        });
-    }
-
-    // Parallex effect on full-width images
-    if (document.querySelector('.full-image_wrapper')) {
-        gsap.utils.toArray(".full-image_wrapper").forEach(function(wrapper) {
-        let image = wrapper.querySelector("img");
+    //     function raf(time) {
+    //         lenis.raf(time);
+    //         requestAnimationFrame(raf);
+    //     }
         
-        let tl = gsap.timeline({
-            scrollTrigger: {
-            trigger: wrapper,
-            scrub: 0.25,
-            },
-        }); 
+    //     requestAnimationFrame(raf);
+    // }
 
-        tl.from(image, {
-            yPercent: -12.5,
-            ease: 'none',
-        }).to(image, {
-            yPercent: 12.5,
-            ease: 'none',
-        }); 
-        });
+    // ✅ Register GSAP Plugins
+    gsap.registerPlugin(ScrollTrigger);
+
+    // ✅ Function to create horizontal scroll effects
+    function horizontalScroll(selector, xPercent) {
+        const el = document.querySelector(selector);
+        if (el) {
+            gsap.to(el, {
+                scrollTrigger: {
+                    trigger: el,
+                    start: 'top bottom',
+                    end: 'bottom top',
+                    scrub: 0.25,
+                },
+                xPercent: xPercent,
+                ease: 'none',
+            });
+        }
     }
 
-    // Target items with data-animate attribute of "appear" to animate
-    if (document.querySelector('[data-animate=appear]')) {
-        gsap.fromTo("[data-animate=appear]", 
-            { y: 56, opacity: 0 }, // From state
+    // 🖼️ Apply Horizontal Scroll Effects
+    horizontalScroll('.kxs-banner_list', -35);
+    horizontalScroll('.stripes-banner_list', -35);
+
+    // ✅ Parallax Effect on Full-Width Images
+    gsap.utils.toArray(".full-image_wrapper").forEach(wrapper => {
+        const image = wrapper.querySelector("img");
+        if (image) {
+            gsap.timeline({
+                scrollTrigger: {
+                    trigger: wrapper,
+                    scrub: 0.25,
+                },
+            }).fromTo(image, 
+                { yPercent: -12.5 },
+                { yPercent: 12.5, ease: 'none' }
+            );
+        }
+    });
+
+    // ✅ Appear Animation for Elements with `data-animate="appear"`
+    gsap.utils.toArray("[data-animate='appear']").forEach(el => {
+        gsap.set(
+            el,
+            {
+                y: 56,
+                opacity: 0
+            }
+        ),
+        gsap.to(el, 
             { 
-                y: 0, opacity: 1, // To state
+                y: 0, 
+                opacity: 1,
                 duration: 1,
                 scrollTrigger: {
-                    trigger: "[data-animate=appear]",
+                    trigger: el,
                     start: "top 80%",
                 }
             }
         );
-    }
+    });
 
-    if (document.querySelector('[data-animate=appear-children]')) {
-        document.querySelectorAll('[data-animate=appear-children]').forEach(parent => {
-            gsap.fromTo(
-                parent.children, // Target direct children
-                { y: 56, opacity: 0 }, // From state
-                { 
-                    y: 0, opacity: 1, // To state
-                    duration: .64,
-                    stagger: 0.16, // Stagger delay for each child
-                    scrollTrigger: {
-                        trigger: parent,
-                        start: "top 80%",
-                    }
+    // ✅ Staggered Appear Animation for Child Elements with `data-animate="appear-children"`
+    gsap.utils.toArray("[data-animate='appear-children']").forEach(parent => {
+        gsap.set(
+            parent.children, 
+            { 
+                y: 48, 
+                opacity: 0 
+            }
+        ),
+        gsap.to(
+            parent.children,
+            { 
+                y: 0,
+                opacity: 1,
+                duration: 0.64,
+                stagger: 0.16,
+                scrollTrigger: {
+                    trigger: parent,
+                    start: "top 80%",
                 }
-            );
-        });
-    }
+            }
+        );
+    });
 
 });
