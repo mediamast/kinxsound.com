@@ -101,4 +101,35 @@ document.addEventListener("DOMContentLoaded", () => {
         );
     });
 
+    // =========================
+  // Marquee
+  // =========================
+  (function initMarquee() {
+    const marqueeWrappers = document.querySelectorAll('[data-marquee="wrapper"]');
+    if (marqueeWrappers.length === 0) return;
+
+    marqueeWrappers.forEach(wrapper => {
+      const content = wrapper.querySelector('[data-marquee="content"]');
+      const contentInner = content?.firstElementChild;
+
+      if (!content || !contentInner) return;
+
+      const duplicateCount = parseInt(content.getAttribute('data-marquee-count'), 10) || 1;
+
+      for (let i = 0; i < duplicateCount; i++) {
+        const clone = contentInner.cloneNode(true);
+        content.appendChild(clone);
+      }
+
+      const totalWidth = contentInner.offsetWidth;
+
+      gsap.to(content.children, {
+        x: `-${totalWidth}px`,
+        duration: parseInt(content.getAttribute('data-marquee-duration'), 10) || 15,
+        ease: "linear",
+        repeat: -1
+      });
+    });
+  })();
+
 });
