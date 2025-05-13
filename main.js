@@ -132,4 +132,30 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   })();
 
+  document.querySelectorAll('[data-countup]').forEach(counter => {
+    const target = +counter.getAttribute('data-target');
+    const duration = 1.5; // seconden
+    const ease = "power1.out";
+
+    ScrollTrigger.create({
+      trigger: counter,
+      start: "top 80%",
+      once: true,
+      onEnter: () => {
+        gsap.fromTo(counter, 
+          { innerText: 0 }, 
+          {
+            innerText: target,
+            duration: duration,
+            ease: ease,
+            snap: { innerText: 1 },
+            onUpdate: function () {
+              counter.innerText = Math.ceil(this.targets()[0].innerText);
+            }
+          }
+        );
+      }
+    });
+  });
+
 });
